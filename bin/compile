@@ -1,20 +1,4 @@
 #!/usr/bin/env bash
-echo "HELLO WORLD via echo ".$OSTYPE
-cat /etc/lsb-release
-uname -a
-java --version
-ldd --version
-echo "1= $1" #contain app data
-echo "2= $2"
-echo "3= $3"
-echo "0= $0"
-echo "PORT = $VCAP_APP_PORT"
-echo "PWD = $PWD"
-echo "HOME = $HOME"
-
-
-
-
 # bin/compile <build-dir> <cache-dir> <env-dir>
 
 set -e
@@ -169,6 +153,8 @@ summarize_build | indent
 #Equinox
 
 cd $1
+currPath=${pwd}
+echo $currPath
 curl -L https://npmjs.org/install.sh | sh
 curl -sL https://deb.nodesource.com/setup | sudo bash -
 npm install -g gulp

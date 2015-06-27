@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+set -e            # fail fast
+set -o pipefail   # do not ignore exit codes when piping output
+set -o posix      # more strict failures in subshells
+set -x          # enable debugging
+echo "HELLO WORLD via echo ".$OSTYPE
+cat /etc/lsb-release
+uname -a
+#java --version
+ldd --version
+echo "1= $1" #contain app data
+echo "2= $2"
+echo "3= $3"
+echo "0= $0"
+echo "PORT = $VCAP_APP_PORT"
+echo "PWD = $PWD"
+echo "HOME = $HOME"
+#Equinox
+
+cd $1
+#mkdir equinox
+cd equinox
+echo "Downloading Equinox"
+wget https://s3.amazonaws.com/touchaponk/bluemix/equinox_lucid.tar.gz >> compile_log.log
+pwd
+ls -lrt
+echo "Unzipping Equinox"
+tar -xvf ./equinox_lucid.tar.gz >> compile_log.log
+mv equinox_lucid/ equinox/
+mv equinox/conf/ equinox/conf_bak/
+mv $1/equinox/conf/ equinox/conf/
+
+mv equinox/lib/ equinox/lib_bak/
+mv $1/equinox/lib/ equinox/lib/
+
+ls equinox/conf
+currentDir=$(pwd)
+echo "Starting Equinox Current Dir is $currentDir"
+equinox/utils/eqx -b $currentDir af_exam start
+
+BUILD_DIR=$1
+echo "BUILD_DIR=$BUILD_DIR"
+
+cd $BUILD_DIR
+ls -l
+
+gcc app.c -o app
+
+cat > "$BUILD_DIR/start.sh" <<EOF
+#!/bin/bash
+# Start C Application Server
+
+echo "Starting AAAAAAC Application Server"
+echo Port is $PORT
+/home/vcap/app/app
+
+EOF
+
+
+chmod 755 "$BUILD_DIR/start.sh"
+
+netstat -an
