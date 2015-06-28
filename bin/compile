@@ -20,10 +20,10 @@ CACHE_DIR=${2:-}
 ENV_DIR=${3:-}
 BP_DIR=$(cd $(dirname ${0:-}); cd ..; pwd)
 $BP_DIR/compile-extensions/bin/check_stack_support
-currPath1=${pwd}
 mkdir -p "$BUILD_DIR/.heroku/node/"
 cd $BUILD_DIR
 export PATH="$BUILD_DIR/.heroku/node/bin":$PATH
+echo "BUILD_DIR=" $BUILD_DIR
 
 # CF Common
 export BUILDPACK_PATH=$BP_DIR
@@ -158,8 +158,7 @@ summarize_build | indent
 #Equinox
 
 cd $1
-currPath=${pwd}
-echo $currPath
+pwd
 curl -L https://npmjs.org/install.sh | sh
 curl -sL https://deb.nodesource.com/setup | sudo bash -
 npm install -g gulp
