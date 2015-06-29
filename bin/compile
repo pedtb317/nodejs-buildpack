@@ -159,10 +159,10 @@ summarize_build | indent
 
 cd $1
 pwd
-curl -L https://npmjs.org/install.sh | sh
-curl -sL https://deb.nodesource.com/setup | sudo bash -
-npm install -g gulp
-npm install -g bower
+#curl -L https://npmjs.org/install.sh | sh
+#curl -sL https://deb.nodesource.com/setup | sudo bash -
+#npm install -g gulp
+#npm install -g bower
 npm install express --save
 npm install -g express-generator
 express nodetest1
